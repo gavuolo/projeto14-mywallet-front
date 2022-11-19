@@ -46,6 +46,7 @@ table {
 
 //minhas
 *{
+	user-select: none;
 	box-sizing: border-box;
 }
 div{
@@ -68,6 +69,7 @@ input{
 	font-weight: 400;
 	font-size: 20px;
 	line-height: 23px;
+	margin-bottom: 13px;
 }
 input:focus{
 	box-shadow: 0 0 0 0;

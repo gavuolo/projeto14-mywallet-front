@@ -32,8 +32,11 @@ export default function App() {
 }
 
 const Content = styled.div`
-    width: 100%;
-    min-height: 100vh;
+    width: 100vw;
+    height: 100vh;
     background-color: #8C11BE;
+    display: flex;
+    justify-content: center;
 ;
 `
+//min-height: 100vh;
