@@ -2,28 +2,76 @@ import styled from "styled-components"
 import { AuthContext } from "../contexts/AuthContext";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+
 
 export default function TelaCadastro() {
 
+    const [form, setForm] = useState({ name: "", email: "", password: "" })
+
+    const navigate = useNavigate("/")
+
+
+    function Cadastrar() {
+        const URL = 'http://localhost:5000/sign-up'
+        const post = axios.post(URL, form)
+        post.then(() => {
+
+            alert("Sucesso! Usuário cadastrado")
+            navigate('/')
+        })
+        post.catch((ress) => {
+            alert(ress.response.data.message)
+        })
+    }
+
+    function Formulario(e) {
+        const { name, value } = e.target
+        setForm({ ...form, [name]: value })
+
+    }
+    console.log(form)
 
     return (
         <>
             <Content>
                 <Logo>MyWallet</Logo>
                 <Form>
-                    <input type="text" placeholder="Nome"></input>
-                    <input type="text" placeholder="E-mail"></input>
-                    <input type="text" placeholder="Senha"></input>
-                    <input type="text" placeholder="Confirme a senha"></input>
+                    <input
+                        name="name"
+                        type="text"
+                        placeholder="Nome"
+
+                        value={form.name}
+                        onChange={Formulario}
+                    />
+                    <input
+                        name="email"
+                        type="text"
+                        placeholder="E-mail"
+                        value={form.email}
+                        onChange={Formulario}
+                    />
+                    <input
+                        name="password"
+                        type="text"
+                        placeholder="Senha"
+                        value={form.password}
+                        onChange={Formulario}
+                    />
+                    {/* <input
+                        type="text"
+                        placeholder="Confirme a senha"
+                    /> */}
                 </Form>
-                <Button>
-                <Link to="/novaSaida">
-                    <p>Entrar</p>
-                </Link>
+                <Button onClick={Cadastrar}>
+                    <Link to="/novaSaida">
+                        <p>Entrar</p>
+                    </Link>
                 </Button>
                 <SignUp>
                     <Link to="/">
-                    <h1>Já tem uma conta? Entre agora!</h1>
+                        <h1>Já tem uma conta? Entre agora!</h1>
                     </Link>
                 </SignUp>
             </Content>
