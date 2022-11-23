@@ -2,23 +2,56 @@ import styled from "styled-components"
 import { AuthContext } from "../contexts/AuthContext";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 
 export default function TelaLogin() {
-    
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const navigate = useNavigate()
+
+    function Logar() {
+        const body = {
+            email: email,
+            password: password
+        }
+
+        const URL = 'http://localhost:5000/'
+        const post = axios.post(URL, body)
+        
+        post.then((ress) => {
+            console.log(ress.data.token)
+        })
+        post.catch((err) => {
+            console.log(err.response.data)
+        })
+    }
+
+
     return (
         <>
             <Content>
 
                 <Logo>MyWallet</Logo>
                 <Form>
-                    <input type="text" placeholder="E-mail"></input>
-                    <input type="text" placeholder="Senha"></input>
+                    <input 
+                    name="email"
+                    type="text" 
+                    placeholder="E-mail"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <input
+                    name="password"
+                    type="text" 
+                    placeholder="Senha"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+
+                    />
                 </Form>
-                <Button>
-                <Link to="/novaEntrada">
-                    <p>Entrar</p>
-                </Link>
+                <Button onClick={Logar}>
+                    <p>Entrar</p>         
                 </Button>
                 <SignUp>
                     <Link to="/cadastro">

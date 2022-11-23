@@ -8,7 +8,7 @@ import axios from "axios";
 export default function TelaCadastro() {
 
     const [form, setForm] = useState({ name: "", email: "", password: "" })
-
+    const [passConfirm , setPassConfirm] = useState({ passwordConfirm: ""})
     const navigate = useNavigate("/")
 
 
@@ -17,8 +17,12 @@ export default function TelaCadastro() {
         const post = axios.post(URL, form)
         post.then(() => {
 
+            if(form.password != passConfirm.passwordConfirm){
+                alert("Senhas diferentes")
+                return
+            }
             alert("Sucesso! Usuário cadastrado")
-            navigate('/')
+            navigate('/home')
         })
         post.catch((ress) => {
             alert(ress.response.data.message)
@@ -30,8 +34,14 @@ export default function TelaCadastro() {
         setForm({ ...form, [name]: value })
 
     }
-    console.log(form)
 
+    console.log(passConfirm)
+
+    function Confirm(e){
+        const { name, value } = e.target
+        setPassConfirm({ ...passConfirm, [name]: value })
+    }
+    
     return (
         <>
             <Content>
@@ -41,9 +51,9 @@ export default function TelaCadastro() {
                         name="name"
                         type="text"
                         placeholder="Nome"
-
                         value={form.name}
                         onChange={Formulario}
+                        required
                     />
                     <input
                         name="email"
@@ -51,6 +61,7 @@ export default function TelaCadastro() {
                         placeholder="E-mail"
                         value={form.email}
                         onChange={Formulario}
+                        required
                     />
                     <input
                         name="password"
@@ -58,11 +69,16 @@ export default function TelaCadastro() {
                         placeholder="Senha"
                         value={form.password}
                         onChange={Formulario}
+                        required
                     />
-                    {/* <input
+                    <input
+                        name="passwordConfirm"
                         type="text"
                         placeholder="Confirme a senha"
-                    /> */}
+                        value={form.passwordConfirm}
+                        onChange={Confirm}
+                        required
+                    /> 
                 </Form>
                 <Button onClick={Cadastrar}>
                     <Link to="/novaSaida">
