@@ -4,7 +4,7 @@ import React, { useContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AuthProvider from "./pages/contexts/AuthContext";
 import HomePage from "./pages/home/HomePage";
-import SignUpPage from "./pages/signUpPage/SignUpPage";
+import SignUpPage from "./pages/signUpPage/signUpPage";
 import SignInPage from "./pages/signInPage/signInPage";
 import Incoming from "./pages/transaction/Incoming";
 import Expense from "./pages/transaction/Expense";

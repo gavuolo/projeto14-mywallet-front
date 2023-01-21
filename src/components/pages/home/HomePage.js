@@ -9,6 +9,7 @@ export default function HomePage() {
   const { user, token } = useContext(AuthContext);
   const header = { headers: { Authorization: `Bearer ${token}` } };
   //fazer o get do Balance nesta rota
+  console.log(user._id);
   return (
     <>
       <Content>

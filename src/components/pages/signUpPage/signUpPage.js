@@ -25,7 +25,7 @@ export default function SignUpPage() {
     });
   }
 
-  function Formulario(e) {
+  function BodyForm(e) {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   }
@@ -39,7 +39,7 @@ export default function SignUpPage() {
             type="text"
             placeholder="Nome"
             value={form.name}
-            onChange={Formulario}
+            onChange={BodyForm}
             required
           />
           <input
@@ -47,7 +47,7 @@ export default function SignUpPage() {
             type="text"
             placeholder="E-mail"
             value={form.email}
-            onChange={Formulario}
+            onChange={BodyForm}
             required
           />
           <input
@@ -55,7 +55,7 @@ export default function SignUpPage() {
             type="text"
             placeholder="Senha"
             value={form.password}
-            onChange={Formulario}
+            onChange={BodyForm}
             required
           />
           <input
@@ -63,7 +63,7 @@ export default function SignUpPage() {
             type="text"
             placeholder="Confirme a senha"
             value={form.confirmPassword}
-            onChange={Formulario}
+            onChange={BodyForm}
             required
           />
         </Form>

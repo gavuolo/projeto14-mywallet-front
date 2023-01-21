@@ -11,10 +11,13 @@ export default function Expense() {
             <Content>
                 <p>Nova saída</p>
                 <Form>
-                    <input type="text" placeholder="Valor"></input>
+                    <input
+                    name="Value"
+                    type="text" 
+                    placeholder="Valor"
+                    ></input>
                     <input type="text" placeholder="Descrição"></input>
                 </Form>
-
                 <Button>
                     <p>Salvar saída</p>
                 </Button>
