@@ -9,18 +9,20 @@ export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  //const header = { headers: { Authorization: `Bearer ${token}` } }  
+  const { setUser, setToken } = useContext(AuthContext)
 
   function Login() {
     const body = {
       email: email,
       password: password,
     };
-
     const post = axios.post(`${API}/sign-in`, body);
-
     post.then((ress) => {
       console.log(ress.data.token);
-      navigate('/')
+      setUser(ress.data.userExist)
+      setToken(ress.data.token)
+      navigate("/home");
     });
     post.catch((err) => {
       console.log(err.response.data);
@@ -93,4 +95,7 @@ const SignUp = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  Link{
+    text-decoration: none;
+  }
 `;

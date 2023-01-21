@@ -20,8 +20,8 @@ export default function SignUpPage() {
       alert("Sucesso! Usuário cadastrado");
       navigate("/");
     });
-    post.catch((ress) => {
-      alert(ress.response.data);
+    post.catch((err) => {
+      alert(err.response.data);
     });
   }
 

@@ -13,8 +13,11 @@ export default function App() {
         <GlobalStyle />
         <AuthProvider>
           <Routes>
-            <Route path="/" element={<SignInPage/>} />
+            <Route path="/" element={<SignInPage />} />
             <Route path="/sign-up" element={<SignUpPage />} />
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/nova-entrada" element={<HomePage />} />
+            <Route path="/nova-saida" element={<HomePage />} />
           </Routes>
         </AuthProvider>
       </Content>
