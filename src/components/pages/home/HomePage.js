@@ -29,14 +29,16 @@ export default function HomePage() {
         </Record>
         <DivButton>
           <Button>
-            <Link to="/sign-up">
+            <Link to="/nova-entrada">
               <ion-icon name="add-circle-outline"></ion-icon>
               <p>Nova entrada</p>
             </Link>
           </Button>
           <Button>
-            <ion-icon name="remove-circle-outline"></ion-icon>
-            <p>Nova saída</p>
+            <Link to="/nova-saida">
+              <ion-icon name="remove-circle-outline"></ion-icon>
+              <p>Nova saída</p>
+            </Link>
           </Button>
         </DivButton>
       </Content>
