@@ -20,11 +20,10 @@ export default function HomePage() {
     get.catch((err) => console.log(err.response.data.message));
   }, []);
   console.log(balance);
-  function RenderBalance(type) {
+  function RenderBalance() {
     return (
       <>
         {balance.map((t, index) => {
-          const type = t.type;
           return (
             <Date
               key={index}
@@ -39,20 +38,26 @@ export default function HomePage() {
       </>
     );
   }
-  let total = 0;
-  balance.forEach((t) => {
-    if (t.type === "nova-entrada") {
-      total += Number(t.value);
-    } else {
-      total -= Number(t.value);
-    }
-  });
+  function Teste(){
+    let total = 0;
+    balance.forEach((t) => {
+      if (t.type === "nova-entrada") {
+        total += Number(t.value);
+      } else {
+        total -= Number(t.value);
+      }
+    });
+    return total
+  }
+ function LogOut(){
+  navigate("/");
+ }
   return (
     <>
       <Content>
         <TopBox>
           <p>Olá, {user.name}</p>
-          <ion-icon name="exit-outline"></ion-icon>
+          <ion-icon name="exit-outline" onClick={LogOut}></ion-icon>
         </TopBox>
         <Record>
           {balance === undefined ? (
@@ -62,7 +67,7 @@ export default function HomePage() {
               <RenderBalance />
               <Balance>
                 <div>SALDO:</div>
-                <div>{total}</div>
+                <div>{Teste()}</div>
               </Balance>
             </>
           )}
