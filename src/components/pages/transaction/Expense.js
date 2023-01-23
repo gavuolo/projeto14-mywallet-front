@@ -6,47 +6,79 @@ import axios from "axios";
 import { API } from "../../API_URL";
 
 export default function Expense() {
-    return (
-        <>
-            <Content>
-                <p>Nova saída</p>
-                <Form>
-                    <input
-                    name="Value"
-                    type="text" 
-                    placeholder="Valor"
-                    ></input>
-                    <input type="text" placeholder="Descrição"></input>
-                </Form>
-                <Button>
-                    <p>Salvar saída</p>
-                </Button>
-            </Content>
-        </>
-    )
+  const { token } = useContext(AuthContext);
+  const header = { headers: { Authorization: `Bearer ${token}` } };
+  const [form, setForm] = useState({
+    value: "",
+    description: "",
+    type: "nova-saida",
+  });
+  const navigate = useNavigate();
+
+  function Transations() {
+    const post = axios.post(`${API}/balance`, form, header);
+    post.then((ress) => {
+      console.log(ress);
+      navigate("/home");
+    });
+    post.catch((err) => {
+      console.log(err.response.data);
+    });
+  }
+
+  function BodyForm(e) {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  }
+  return (
+    <>
+      <Content>
+        <p>Nova saída</p>
+        <Form>
+          <input
+            name="value"
+            type="text"
+            placeholder="Valor"
+            value={form.value}
+            onChange={BodyForm}
+          />
+          <input
+            name="description"
+            type="text"
+            placeholder="Descrição"
+            value={form.description}
+            onChange={BodyForm}
+          />
+        </Form>
+        <Button onClick={Transations}>
+          <p>Salvar saída</p>
+        </Button>
+      </Content>
+    </>
+  );
 }
 const Content = styled.div`
-    margin-top: 25px;
-    p{ 
-        padding: 25px 0 25px 0;
-        font-size: 26px;
-    }
-`
+  margin-top: 25px;
+  p {
+    padding: 25px 0 25px 0;
+    font-size: 26px;
+  }
+`;
 const Form = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-top: 24px;
-`
+  display: flex;
+  flex-direction: column;
+  margin-top: 24px;
+`;
 const Button = styled.div`
-    width: 326px;
-    height: 46px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #A328D6;
-    border-radius: 5px;
-    cursor: pointer;
-    p{
-        font-size: 20px;
-    }
-`
+  width: 326px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #a328d6;
+  border-radius: 5px;
+  cursor: pointer;
+  p {
+    font-size: 20px;
+  }
+`;

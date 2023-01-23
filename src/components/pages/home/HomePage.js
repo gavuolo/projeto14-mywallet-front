@@ -8,8 +8,45 @@ import { API } from "../../API_URL";
 export default function HomePage() {
   const { user, token } = useContext(AuthContext);
   const header = { headers: { Authorization: `Bearer ${token}` } };
-  //fazer o get do Balance nesta rota
-  console.log(user._id);
+  const [balance, setBalance] = useState(undefined);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const get = axios.get(`${API}/balance`, header);
+    get.then((res) => {
+      setBalance(res.data);
+      console.log(res.data);
+    });
+    get.catch((err) => console.log(err.response.data.message));
+  }, []);
+  console.log(balance);
+  function RenderBalance(type) {
+    return (
+      <>
+        {balance.map((t, index) => {
+          const type = t.type;
+          return (
+            <Date
+              key={index}
+              color={t.type === "nova-entrada" ? "#03AC00" : "#C70000"}
+            >
+              <div>{t.data}</div>
+              <div>{t.description}</div>
+              <div>{t.value}</div>
+            </Date>
+          );
+        })}
+      </>
+    );
+  }
+  let total = 0;
+  balance.forEach((t) => {
+    if (t.type === "nova-entrada") {
+      total += Number(t.value);
+    } else {
+      total -= Number(t.value);
+    }
+  });
   return (
     <>
       <Content>
@@ -18,15 +55,17 @@ export default function HomePage() {
           <ion-icon name="exit-outline"></ion-icon>
         </TopBox>
         <Record>
-          <Date>
-            <div>20/10</div>
-            <div>gastei mesmo</div>
-            <div> 534,99</div>
-          </Date>
-          <Balance>
-            <div>SALDO:</div>
-            <div>2213,32</div>
-          </Balance>
+          {balance === undefined ? (
+            <h1>Não há registros de entrada ou saída</h1>
+          ) : (
+            <>
+              <RenderBalance />
+              <Balance>
+                <div>SALDO:</div>
+                <div>{total}</div>
+              </Balance>
+            </>
+          )}
         </Record>
         <DivButton>
           <Button>
@@ -46,7 +85,7 @@ export default function HomePage() {
     </>
   );
 }
-//<h1>Não há registros de entrada ou saída</h1>
+
 const Content = styled.div`
   margin-top: 25px;
 `;
@@ -66,6 +105,7 @@ const Record = styled.div`
   align-items: start;
   justify-content: center;
   //quando tiver transação, vai virar justify-concent: flex-start
+  //type={balance === undefined ?  'center' : 'flex-start'}
   flex-direction: column;
   margin: 0 auto;
   margin-top: 22px;
@@ -130,8 +170,7 @@ const Date = styled.div`
     width: 60%;
   }
   div:nth-child(3) {
-    //fazer um ternário para a cor dependendo do type
-    color: #c70000;
+    color: ${(props) => props.color};
   }
 `;
 const Balance = styled.div`

@@ -6,25 +6,21 @@ import axios from "axios";
 import { API } from "../../API_URL";
 
 export default function Incoming() {
-  const { user, token } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
   const header = { headers: { Authorization: `Bearer ${token}` } };
-  const { value, setValue } = useState();
-  const { description, setDescription } = useState();
   const [form, setForm] = useState({
     value: "",
     description: "",
     type: "nova-entrada"
   })
   const navigate = useNavigate();
-
   function Transations() {
     const post = axios.post(`${API}/balance`, form, header);
-    post.then((ress) => {
-      console.log(ress);
+    post.then((res) => {
       navigate("/home");
     });
     post.catch((err) => {
-      console.log(err.response.data);
+     alert(err.response.data);
     });
   }
   function BodyForm(e) {
@@ -39,14 +35,14 @@ export default function Incoming() {
           name="value"
           type="text"
           placeholder="Valor"
-          value={value}
+          value={form.value}
           onChange={BodyForm}
         />
         <input
           name="description"
           type="text"
           placeholder="Descrição"
-          value={description}
+          value={form.description}
           onChange={BodyForm}
         />
       </Form>
