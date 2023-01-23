@@ -3,25 +3,25 @@ import { AuthContext } from "../contexts/AuthContext";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { API } from "../../API_URL";
+import { REACT_APP_API_URL } from "../../API_URL";
 
 export default function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  //const header = { headers: { Authorization: `Bearer ${token}` } }  
-  const { setUser, setToken } = useContext(AuthContext)
+  //const header = { headers: { Authorization: `Bearer ${token}` } }
+  const { setUser, setToken } = useContext(AuthContext);
 
   function Login() {
     const body = {
       email: email,
       password: password,
     };
-    const post = axios.post(`${API}/sign-in`, body);
+    const post = axios.post(`${REACT_APP_API_URL}/sign-in`, body);
     post.then((ress) => {
       console.log(ress.data.token);
-      setUser(ress.data.userExist)
-      setToken(ress.data.token)
+      setUser(ress.data.userExist);
+      setToken(ress.data.token);
       navigate("/home");
     });
     post.catch((err) => {
@@ -35,6 +35,7 @@ export default function SignInPage() {
         <Logo>MyWallet</Logo>
         <Form>
           <input
+            data-test="email"
             name="email"
             type="text"
             placeholder="E-mail"
@@ -42,6 +43,7 @@ export default function SignInPage() {
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
+            data-test="password"
             name="password"
             type="text"
             placeholder="Senha"
@@ -49,7 +51,7 @@ export default function SignInPage() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form>
-        <Button onClick={Login}>
+        <Button onClick={Login} data-test="sign-in-submit">
           <p>Entrar</p>
         </Button>
         <SignUp>
@@ -95,7 +97,7 @@ const SignUp = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  Link{
+  Link {
     text-decoration: none;
   }
 `;

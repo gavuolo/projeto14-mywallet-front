@@ -29,10 +29,9 @@ export default function App() {
 }
 
 const Content = styled.div`
-    width: 100vw;
-    height: 100vh;
-    background-color: #8C11BE;
-    display: flex;
-    justify-content: center;
-;
-`
+  width: 100vw;
+  height: 100vh;
+  background-color: #8c11be;
+  display: flex;
+  justify-content: center; ;
+`;

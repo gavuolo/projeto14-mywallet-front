@@ -3,7 +3,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { API } from "../../API_URL";
+import { REACT_APP_API_URL } from "../../API_URL";
 
 export default function HomePage() {
   const { user, token } = useContext(AuthContext);
@@ -12,7 +12,7 @@ export default function HomePage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const get = axios.get(`${API}/balance`, header);
+    const get = axios.get(`${REACT_APP_API_URL}/balance`, header);
     get.then((res) => {
       setBalance(res.data);
       console.log(res.data);
@@ -30,15 +30,15 @@ export default function HomePage() {
               color={t.type === "nova-entrada" ? "#03AC00" : "#C70000"}
             >
               <div>{t.data}</div>
-              <div>{t.description}</div>
-              <div>{t.value}</div>
+              <div data-test="registry-name">{t.description}</div>
+              <div data-test="registry-amount">{t.value}</div>
             </Date>
           );
         })}
       </>
     );
   }
-  function Teste(){
+  function BalanceTotal() {
     let total = 0;
     balance.forEach((t) => {
       if (t.type === "nova-entrada") {
@@ -47,39 +47,61 @@ export default function HomePage() {
         total -= Number(t.value);
       }
     });
-    return total
+    return total;
   }
- function LogOut(){
-  navigate("/");
- }
+  function LogOut() {
+    navigate("/");
+  }
+  function Render() {
+    return (
+      <>
+        {balance.length == 0 ? (
+          <h1>Não há registros de entrada ou saída</h1>
+        ) : (
+          <>
+            <RenderBalance />
+            <Balance>
+              <div>SALDO:</div>
+              <div data-test="total-amount">
+                {Number(BalanceTotal()).toFixed(2)}
+              </div>
+            </Balance>
+          </>
+        )}
+      </>
+    );
+  }
   return (
     <>
       <Content>
         <TopBox>
-          <p>Olá, {user.name}</p>
-          <ion-icon name="exit-outline" onClick={LogOut}></ion-icon>
+          <p data-test="user-name">Olá, {user.name}</p>
+          <ion-icon
+            name="exit-outline"
+            onClick={LogOut}
+            data-test="logout"
+          ></ion-icon>
         </TopBox>
-        <Record>
-          {balance === undefined ? (
-            <h1>Não há registros de entrada ou saída</h1>
-          ) : (
-            <>
-              <RenderBalance />
-              <Balance>
-                <div>SALDO:</div>
-                <div>{Teste()}</div>
-              </Balance>
-            </>
-          )}
+        <Record
+          justify={
+            balance === undefined || balance.length == 0
+              ? "center"
+              : "flex-start"
+          }
+          align={
+            balance === undefined || balance.length == 0 ? "center" : "start"
+          }
+        >
+          {balance === undefined ? <h2>CARREGANDO...</h2> : <Render />}
         </Record>
         <DivButton>
-          <Button>
+          <Button data-test="new-income">
             <Link to="/nova-entrada">
               <ion-icon name="add-circle-outline"></ion-icon>
               <p>Nova entrada</p>
             </Link>
           </Button>
-          <Button>
+          <Button data-test="new-expense">
             <Link to="/nova-saida">
               <ion-icon name="remove-circle-outline"></ion-icon>
               <p>Nova saída</p>
@@ -107,10 +129,8 @@ const TopBox = styled.div`
 `;
 const Record = styled.div`
   display: flex;
-  align-items: start;
-  justify-content: center;
-  //quando tiver transação, vai virar justify-concent: flex-start
-  //type={balance === undefined ?  'center' : 'flex-start'}
+  align-items: ${(props) => props.align};
+  justify-content: ${(props) => props.justify};
   flex-direction: column;
   margin: 0 auto;
   margin-top: 22px;

@@ -3,7 +3,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { API } from "../../API_URL";
+import { REACT_APP_API_URL } from "../../API_URL";
 
 export default function SignUpPage() {
   const [form, setForm] = useState({
@@ -15,7 +15,7 @@ export default function SignUpPage() {
   const navigate = useNavigate("/");
 
   function Cadastrar() {
-    const post = axios.post(`${API}/sign-up`, form);
+    const post = axios.post(`${REACT_APP_API_URL}/sign-up`, form);
     post.then(() => {
       alert("Sucesso! Usuário cadastrado");
       navigate("/");
@@ -35,6 +35,7 @@ export default function SignUpPage() {
         <Logo>MyWallet</Logo>
         <Form>
           <input
+            data-test="name"
             name="name"
             type="text"
             placeholder="Nome"
@@ -43,6 +44,7 @@ export default function SignUpPage() {
             required
           />
           <input
+            data-test="email"
             name="email"
             type="text"
             placeholder="E-mail"
@@ -51,6 +53,7 @@ export default function SignUpPage() {
             required
           />
           <input
+            data-test="password"
             name="password"
             type="text"
             placeholder="Senha"
@@ -59,6 +62,7 @@ export default function SignUpPage() {
             required
           />
           <input
+            data-test="conf-password"
             name="confirmPassword"
             type="text"
             placeholder="Confirme a senha"
@@ -67,8 +71,8 @@ export default function SignUpPage() {
             required
           />
         </Form>
-        <Button onClick={Cadastrar}>
-            <p>Entrar</p>
+        <Button onClick={Cadastrar} data-test="sign-up-submit ">
+          <p>Entrar</p>
         </Button>
         <SignUp>
           <Link to="/">

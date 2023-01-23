@@ -83,6 +83,6 @@ h5{
 	line-height: 50px;
 	color: #FFFFFF;
 }
-`
+`;
 
-export default GlobalStyle
+export default GlobalStyle;

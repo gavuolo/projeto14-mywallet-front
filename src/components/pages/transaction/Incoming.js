@@ -3,7 +3,7 @@ import { AuthContext } from "../contexts/AuthContext";
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { API } from "../../API_URL";
+import { REACT_APP_API_URL } from "../../API_URL";
 
 export default function Incoming() {
   const { token } = useContext(AuthContext);
@@ -11,16 +11,16 @@ export default function Incoming() {
   const [form, setForm] = useState({
     value: "",
     description: "",
-    type: "nova-entrada"
-  })
+    type: "nova-entrada",
+  });
   const navigate = useNavigate();
   function Transations() {
-    const post = axios.post(`${API}/balance`, form, header);
+    const post = axios.post(`${REACT_APP_API_URL}/balance`, form, header);
     post.then((res) => {
       navigate("/home");
     });
     post.catch((err) => {
-     alert(err.response.data);
+      alert(err.response.data);
     });
   }
   function BodyForm(e) {
@@ -32,6 +32,7 @@ export default function Incoming() {
       <p>Nova entrada</p>
       <Form>
         <input
+          data-test="registry-amount-input"
           name="value"
           type="text"
           placeholder="Valor"
@@ -39,6 +40,7 @@ export default function Incoming() {
           onChange={BodyForm}
         />
         <input
+          data-test="registry-name-input"
           name="description"
           type="text"
           placeholder="Descrição"
@@ -46,7 +48,7 @@ export default function Incoming() {
           onChange={BodyForm}
         />
       </Form>
-      <Button onClick={Transations}>
+      <Button onClick={Transations} data-test="registry-save">
         <p>Salvar entrada</p>
       </Button>
     </Content>
